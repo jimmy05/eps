@@ -112,11 +112,18 @@ module Eps
     def summary(extended: true)
       h = {columns: {}}
       coefficients.each do |k, v|
-        k[0] == "_" ? i = k[1..-1] : i = k # trim "_" from "_intercept"
-        if extended
-          h[:columns][i.to_sym] = {coefficient: v, standard_error: std_err[k], t_value: t_value[k], p_value: p_value[k] }
+        if k == "_intercept"
+          if extended
+            h[:intercept] = {coefficient: v, standard_error: std_err[k], t_value: t_value[k], p_value: p_value[k] }
+          else
+            h[:intercept] = {coefficient: v, p_value: p_value[k] }
+          end
         else
-          h[:columns][i.to_sym] = {coefficient: v, p_value: p_value[k] }
+          if extended
+            h[:columns][k.to_sym] = {coefficient: v, standard_error: std_err[k], t_value: t_value[k], p_value: p_value[k] }
+          else
+            h[:columns][k.to_sym] = {coefficient: v, p_value: p_value[k] }
+          end
         end
       end
       h[:r2] = [r2] if extended
