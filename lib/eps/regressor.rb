@@ -110,13 +110,13 @@ module Eps
 
     # https://people.richland.edu/james/ictcm/2004/multiple.html
     def summary(extended: true)
-      h = {}
+      h = {columns: {}}
       coefficients.each do |k, v|
         k[0] == "_" ? i = k[1..-1] : i = k # trim "_" from "_intercept"
         if extended
-          h[i.to_sym] = {coef: v, stderr: std_err[k], t_value: t_value[k], p_value: p_value[k] }
+          h[:columns][i.to_sym] = {coefficient: v, standard_error: std_err[k], t_value: t_value[k], p_value: p_value[k] }
         else
-          h[i.to_sym] = {coef: v, p_value: p_value[k] }
+          h[:columns][i.to_sym] = {coefficient: v, p_value: p_value[k] }
         end
       end
       h[:r2] = [r2] if extended
