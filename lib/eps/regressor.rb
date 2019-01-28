@@ -112,7 +112,7 @@ module Eps
     def summary(extended: true)
       h = {columns: {}}
       coefficients.each do |k, v|
-        if k == "_intercept"
+        if k == :_intercept
           if extended
             h[:intercept] = {coefficient: v, standard_error: std_err[k], t_value: t_value[k], p_value: p_value[k] }
           else
