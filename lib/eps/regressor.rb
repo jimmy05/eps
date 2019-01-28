@@ -109,27 +109,19 @@ module Eps
     end
 
     # https://people.richland.edu/james/ictcm/2004/multiple.html
-    def summary(extended: false)
-      @summary_str ||= begin
-        str = String.new("")
-        len = [coefficients.keys.map(&:size).max, 15].max
+    def summary(extended: true)
+      h = {}
+      coefficients.each do |k, v|
+        k[0] == "_" ? k = k[1..-1] : k = k # trim "_" from "_intercept"
         if extended
-          str += "%-#{len}s %12s %12s %12s %12s\n" % ["", "coef", "stderr", "t", "p"]
+          h[k.to_sym] = {coef: v, stderr: std_err[k], t_value: t_value[k], p_value: p_value[k] }
         else
-          str += "%-#{len}s %12s %12s\n" % ["", "coef", "p"]
+          h[k.to_sym] = {coef: v, p_value: p_value[k] }
         end
-        coefficients.each do |k, v|
-          if extended
-            str += "%-#{len}s %12.2f %12.2f %12.2f %12.3f\n" % [k, v, std_err[k], t_value[k], p_value[k]]
-          else
-            str += "%-#{len}s %12.2f %12.3f\n" % [k, v, p_value[k]]
-          end
-        end
-        str += "\n"
-        str += "r2: %.3f\n" % [r2] if extended
-        str += "adjusted r2: %.3f\n" % [adjusted_r2]
-        str
       end
+      h[:r2] = [r2] if extended
+      h[:r2_adjusted] = [adjusted_r2]
+      return h
     end
 
     def r2
