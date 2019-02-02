@@ -139,6 +139,10 @@ module Eps
       @adjusted_r2 ||= (mst - mse) / mst
     end
 
+    def vif # variance inflation factor
+      @vif ||= 1 / ( 1 - r2 )
+    end
+
     private
 
     def constant?(arr)
