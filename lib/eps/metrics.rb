@@ -32,9 +32,9 @@ module Eps
       Math.sqrt(mse)
     end
 
-    def mallows_cp
-      (sse / mse) - (data_point_count - 2p)
-    end
+    # def mallows_cp
+    #   (sse / mse) - (data_point_count - 2p)
+    # end
 
     def mean(arr)
       arr.inject(0, &:+) / arr.size.to_f
