@@ -145,7 +145,7 @@ module Eps
     end
 
     def standard_error
-      Math.sqrt(sst / degrees_of_freedom)
+      Math.sqrt(sse / degrees_of_freedom)
     end
 
     private
