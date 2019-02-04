@@ -128,6 +128,7 @@ module Eps
       end
       h[:r2] = [r2] if extended
       h[:r2_adjusted] = [adjusted_r2]
+      h[:standard_error] = [standard_error]
       return h
     end
 
@@ -174,6 +175,10 @@ module Eps
       @std_err ||= begin
         Hash[@coefficient_names.zip(diagonal.map { |v| Math.sqrt(v) })]
       end
+    end
+
+    def standard_error
+      Math.sqrt(sst / degrees_of_freedom)
     end
 
     def diagonal
