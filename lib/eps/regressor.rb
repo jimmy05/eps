@@ -140,6 +140,7 @@ module Eps
       @adjusted_r2 ||= (mst - mse) / mst
     end
 
+    # must cycles through each variable as being the dependent, with the same set of other variables. then the VIF can be calculated
     def vif # variance inflation factor
       @vif ||= 1 / ( 1 - r2 )
     end
