@@ -128,6 +128,7 @@ module Eps
       end
       h[:r2] = r2 if extended
       h[:r2_adjusted] = adjusted_r2
+      h[:r2_predicted] = predicted_r2
       h[:standard_error] = standard_error
       return h
     end
@@ -138,6 +139,10 @@ module Eps
 
     def adjusted_r2
       @adjusted_r2 ||= (mst - mse) / mst
+    end
+
+    def predicted_r2
+      1 - (sse / sst)
     end
 
     def vif # variance inflation factor
